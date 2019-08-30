@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="http://www.diasoft.ru//VTBAdapter/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="VTBAdapter"
+        targetNamespace="http://www.diasoft.ru//VTBAdapter/">
+    <wsdl:types>
+        <xsd:schema
+                targetNamespace="http://www.diasoft.ru//VTBAdapter/">
+            <xsd:element name="response"
+                         type="xsd:string">
+
+            </xsd:element>
+
+            <xsd:element name="userInfo"
+                         type="tns:UserInfoType">
+            </xsd:element>
+
+            <xsd:complexType name="UserInfoType">
+                <xsd:sequence>
+                    <xsd:element name="login" type="xsd:string"/>
+                    <xsd:element name="password" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="groups"
+                         type="tns:GroupsType">
+
+            </xsd:element>
+
+            <xsd:complexType name="GroupsType">
+                <xsd:sequence>
+                    <xsd:element name="group" type="tns:GroupType" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="group"
+                         type="tns:GroupType">
+
+            </xsd:element>
+
+            <xsd:complexType name="GroupType">
+                <xsd:sequence>
+                    <xsd:element name="students" type="tns:StudentsType"/>
+                    <xsd:element name="teachers" type="tns:TeachersType"/>
+                </xsd:sequence>
+
+                <xsd:attribute name="id" use="required" type="xsd:string">
+                </xsd:attribute>
+            </xsd:complexType>
+
+            <xsd:complexType name="StudentsType">
+                <xsd:sequence>
+                    <xsd:element name="student" type="tns:StudentType" maxOccurs="unbounded">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="TeachersType">
+                <xsd:sequence>
+                    <xsd:element name="teacher" type="tns:TeacherType" maxOccurs="unbounded">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="StudentType">
+                <xsd:sequence>
+                    <xsd:element name="surname" type="xsd:string">
+                    </xsd:element>
+                    <xsd:element name="name" type="xsd:string">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="TeacherType">
+                <xsd:sequence>
+                    <xsd:element name="surname" type="xsd:string">
+                    </xsd:element>
+                    <xsd:element name="name" type="xsd:string">
+                    </xsd:element>
+                    <xsd:element name="salary" type="xsd:decimal">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="saveRequest">
+        <wsdl:part name="parameters" element="tns:group"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="saveResponse">
+        <wsdl:part name="parameters"
+                   element="tns:response"></wsdl:part>
+    </wsdl:message>
+
+    <wsdl:message name="getRequest">
+        <wsdl:part name="parameters" element="tns:userInfo"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getResponse">
+        <wsdl:part name="parameters"
+                   element="tns:groups"></wsdl:part>
+    </wsdl:message>
+
+    <wsdl:portType name="GroupService">
+
+        <wsdl:operation name="save">
+            <wsdl:input message="tns:saveRequest"></wsdl:input>
+            <wsdl:output message="tns:saveResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="get">
+            <wsdl:input message="tns:getRequest"></wsdl:input>
+            <wsdl:output message="tns:getResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="GroupServiceSOAP" type="tns:GroupService">
+
+
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="save">
+            <soap:operation
+                    soapAction="http://www.diasoft.ru//VTBAdapter/processRequest" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="get">
+            <soap:operation
+                    soapAction="http://www.diasoft.ru//VTBAdapter/processRequest" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="GroupService">
+        <wsdl:port binding="tns:GroupServiceSOAP" name="GroupServiceSOAP">
+            <soap:address location="http://www.example.org/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,10 @@
+/target
+/.idea
+*/target/**
+*/target/*
+/target/**
+target
+target/
+/target/
+*.iml
+dsarch_gen/flextera client management/ws/configroscap-int-dir\.txt
